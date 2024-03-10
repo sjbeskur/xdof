@@ -1,0 +1,22 @@
+[package]
+name = "xdof"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "A simple, learnable SLAM library"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+# [lib]
+# crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+nalgebra = "0.32.4"
+image = "0.24.9"
+
+[dev-dependencies]
+# blows up when xcompiling for arm - bu
+#imageproc = { version = "0.23.0", features = ["display-window"] }
+
+
+[[examples]]
+name = "slamiam"

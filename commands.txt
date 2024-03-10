@@ -1,0 +1,100 @@
+ 2081  cargo build --example --release
+ 2082  cargo build --example slamiam
+ 2083  cargo run  --example slamiam
+ 2084  ./target/release/examples/slamiam
+ 2085  cargo build --example slamiam --release
+ 2086  ./target/release/examples/slamiam
+ 2087  cargo build --example slamiam --release
+ 2088  ./target/release/examples/slamiam
+ 2089  cargo build --example slamiam --release
+ 2090  ./target/release/examples/slamiam
+ 2091  \
+ 2092  ./target/release/examples/slamiam
+ 2093  cargo build --example slamiam --release
+ 2094  ./target/release/examples/slamiam
+ 2095  cargo build --example slamiam --release
+ 2096  ./target/release/examples/slamiam
+ 2097  export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=/usr/bin/aarch64-linux-gnu-gcc
+ 2098  cargo build --example slamiam --target aarch64-unknown-linux-gnu --release
+ 2099  cargo clean
+ 2100  cargo build  --target aarch64-unknown-linux-gnu --release
+ 2101* ls /usr/bin/aarch64-linux-gnu-gcc
+ 2102  cargo build  --target aarch64-unknown-linux-gnu-11 --release
+ 2103  export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=/usr/bin/aarch64-linux-gnu-gcc-11
+ 2104* cargo build  --target aarch64-unknown-linux-gnu --release
+ 2105  export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=/usr/bin/aarch64-linux-gnu-gcc-11
+ 2106  cargo build  --target aarch64-unknown-linux-gnu-11 --release
+ 2107  cd ..
+ 2108  mkdir xdof2
+ 2109  cd xdof2
+ 2110  cd //
+ 2111  cd ~/repos/SLAM/
+ 2112  rm -rf xdof2
+ 2113  cargo new xdof --lib
+ 2114  cargo new xdof2 --lib
+ 2115  cd xdof2/
+ 2116  export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=/usr/bin/aarch64-linux-gnu-gcc
+ 2117  cargo build  --target aarch64-unknown-linux-gnu --release
+ 2118  code .
+ 2119  cargo build  --target aarch64-unknown-linux-gnu --release
+ 2120  cargo clean
+ 2121  cargo build  --target aarch64-unknown-linux-gnu --release
+ 2122  clear
+ 2123  cargo build
+ 2124  sudo apt install gcc-12-aarch64-linux-gnu
+ 2125  sudo apt install gcc-12
+ 2126* ls /usr/bin/aarch64-linux-gnu-g++
+ 2127  export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=/usr/bin/aarch64-linux-gnu-g++
+ 2128  cargo build  --target aarch64-unknown-linux-gnu --release
+ 2129  sudo apt install libsdl2-dev 
+ 2130  cargo build  --target aarch64-unknown-linux-gnu --release
+ 2131  history | grep export
+ 2132  export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=/usr/bin/aarch64-linux-gnu-gcc
+ 2133  cargo build  --target aarch64-unknown-linux-gnu --release
+ 2134  cargo clean
+ 2135  cargo build  --target aarch64-unknown-linux-gnu --release
+ 2136  cargo clean
+ 2137  cargo build  --target aarch64-unknown-linux-gnu --release
+ 2138  0.24.5
+ 2139  cargo clean
+ 2140  cargo build  --target aarch64-unknown-linux-gnu --release
+ 2141  cargo clean
+ 2142  cargo build  --target aarch64-unknown-linux-gnu --release
+ 2143  cargo build  --example  --target aarch64-unknown-linux-gnu --release
+ 2144  cargo build  --example slamiam  --target aarch64-unknown-linux-gnu --release
+ 2145  ./target/aarch64-unknown-linux-gnu/release/examples/slamiam
+ 2146  scp ./target/aarch64-unknown-linux-gnu/release/examples/slamiam ubuntu@192.168.88.199:/home/ubuntu
+ 2147  cargo clean
+ 2148  cargo build  --example slamiam  --target aarch64-unknown-linux-gnu --release
+ 2149  scp ./target/aarch64-unknown-linux-gnu/release/examples/slamiam ubuntu@192.168.88.199:/home/ubuntu
+ 2150  cargo install cross
+ 2151  cargo install -f cross
+ 2152  cross build --target aarch64-unknown-linux-musl
+ 2153  scp ./target/aarch64-unknown-linux-musl/release/examples/slamiam ubuntu@192.168.88.199:/home/ubuntu
+ 2154  cross build --example slamiam --target aarch64-unknown-linux-musl
+ 2155  scp ./target/aarch64-unknown-linux-musl/release/examples/slamiam ubuntu@192.168.88.199:/home/ubuntu
+ 2156  cross build --example slamiam --target aarch64-unknown-linux-musl --release
+ 2157  scp ./target/aarch64-unknown-linux-musl/release/examples/slamiam ubuntu@192.168.88.199:/home/ubuntu
+ 2158  scp *.png  ubuntu@192.168.88.199:/home/ubuntu
+ 2159  scp ../xdof/*.png  ubuntu@192.168.88.199:/home/ubuntu
+ 2160  history | grep massif
+ 2161  history | grep ms_pring
+ 2162  history | grep ms_print
+ 2163  valgrind --tool=massif --time-unit=ms --massif-out-file=./massif.out ./target/release/examples/slamiam
+ 2164  cargo build --release
+ 2165  valgrind --tool=massif --time-unit=ms --massif-out-file=./massif.out ./target/release/examples/slamiam
+ 2166  cargo build --example slamiam --release 
+ 2167  valgrind --tool=massif --time-unit=ms --massif-out-file=./massif.out ./target/release/examples/slamiam
+ 2168  cp ../xdof/*.png .
+ 2169  valgrind --tool=massif --time-unit=ms --massif-out-file=./massif.out ./target/release/examples/slamiam
+ 2170  ms_print massif.out | less
+ 2171  ls
+ 2172  ./target/release/examples/slamiam
+ 2173  valgrind --tool=massif --time-unit=ms --massif-out-file=./massif.out ./target/release/examples/slamiam
+ 2174  ms_print massif.out | less
+ 2175  ./target/release/examples/slamiam
+ 2176  valgrind --tool=massif --time-unit=ms --massif-out-file=./massif.out ./target/release/examples/slamiam
+ 2177  ms_print massif.out | less
+ 2178  history
+ 2179  history | tail -n 100  
+ 2180  history | tail -n 100  > commands.txt
