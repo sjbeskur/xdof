@@ -62,12 +62,14 @@ fn main() {
     };
 
     // Once we have the essential matrix we don't need to compute this every time
-
-    //
+    //   Check out  https://github.com/PoseLib/PoseLib
+    // The above is the estimation of the absolute pose
 
     // Triangulate Points
     //   LOST  https://gtsam.org/2023/02/04/lost-triangulation.html
     //   look at lmvs plucker
+
+    // Poselib P3P solver or LambdaTwist
 
     // Determine Absolute Pose - relative to the point cloud (vector of points)
 
