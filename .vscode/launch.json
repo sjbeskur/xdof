@@ -1,0 +1,83 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'xdof'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=xdof"
+                ],
+                "filter": {
+                    "name": "xdof",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug example 'slamiam'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--example=slamiam",
+                    "--package=xdof"
+                ],
+                "filter": {
+                    "name": "slamiam",
+                    "kind": "example"
+                }
+            },
+            "args": ["falcon_0.png", "falcon_0.png"],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in example 'slamiam'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--example=slamiam",
+                    "--package=xdof"
+                ],
+                "filter": {
+                    "name": "slamiam",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'feature_tests'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=feature_tests",
+                    "--package=xdof"
+                ],
+                "filter": {
+                    "name": "feature_tests",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
