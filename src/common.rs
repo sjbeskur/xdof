@@ -8,9 +8,16 @@ pub struct KeyPoint {
 #[derive(PartialEq, Debug, Clone)]
 pub struct Descriptor(pub Vec<u8>);
 
-#[derive(PartialEq, Debug, Clone, Copy)]
-pub struct Image<'a> {
+//#[derive(PartialEq, Debug, Clone, Copy)]
+// pub struct Image<'a> {
+//     pub width: usize,
+//     pub height: usize,
+//     pub data: &'a [u8],
+// }
+
+#[derive(PartialEq, Debug, Clone)]
+pub struct Image {
     pub width: usize,
     pub height: usize,
-    pub data: &'a [u8],
+    pub data: Vec<u8>,
 }

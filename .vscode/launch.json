@@ -38,7 +38,7 @@
                     "kind": "example"
                 }
             },
-            "args": ["falcon_0.png", "falcon_0.png"],
+            "args": ["coffee.png", "coffee.png"],
             "cwd": "${workspaceFolder}"
         },
         {
@@ -57,27 +57,9 @@
                     "kind": "example"
                 }
             },
-            "args": [],
+            "args": ["falcon_1.png", "falcon_1.png"],
             "cwd": "${workspaceFolder}"
         },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug integration test 'feature_tests'",
-            "cargo": {
-                "args": [
-                    "test",
-                    "--no-run",
-                    "--test=feature_tests",
-                    "--package=xdof"
-                ],
-                "filter": {
-                    "name": "feature_tests",
-                    "kind": "test"
-                }
-            },
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        }
+
     ]
 }

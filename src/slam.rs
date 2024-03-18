@@ -10,9 +10,9 @@ use crate::image_impl;
 use crate::matcher;
 use crate::rand::*;
 
-pub struct Slam<'a> {
-    image_a: Image<'a>,
-    image_b: Image<'a>,
+pub struct Slam {
+    image_a: Image,
+    image_b: Image,
     random: Rand,
     patch_size: usize,
     num_pairs: usize,
@@ -22,8 +22,8 @@ pub struct Slam<'a> {
     essential_threshold: f32,
 }
 
-impl<'a> Slam<'a> {
-    pub fn new(image_a: Image<'a>, image_b: Image<'a>) -> Slam<'a> {
+impl Slam {
+    pub fn new(image_a: Image, image_b: Image) -> Slam {
         let seed = 2523523;
         let random = Rand::new_with_seed(seed);
         Slam {
@@ -44,7 +44,7 @@ impl<'a> Slam<'a> {
     ) -> (
         Option<(Matrix3<f64>, Vector3<f64>)>,
         Vec<(KeyPoint, KeyPoint)>,
-        (Vec<KeyPoint>, Vec<Descriptor>, Vec<u8>),
+        (Vec<KeyPoint>, Vec<Descriptor>),
         (Vec<KeyPoint>, Vec<Descriptor>),
     ) {
         let (key_points_with_orientation_a, blurred_image_a) = {
@@ -52,7 +52,8 @@ impl<'a> Slam<'a> {
             let height = self.image_a.height;
 
             // PHASE 1  -  Convert RGB image to greyscale and blur it with a Gaussian filter
-            let greyscale = image_impl::rgb_to_grayscale(self.image_a.data, width, height);
+            //let greyscale = image_impl::rgb_to_grayscale(self.image_a.data, width, height);
+            let greyscale = self.image_a.data.clone();
             let blurred_img =
                 image_impl::greyscale_gaussian_blur(&greyscale, width, height, self.blur_radius);
             let threshold: u8 = 30;
@@ -70,7 +71,8 @@ impl<'a> Slam<'a> {
             let height = self.image_b.height;
 
             // PHASE 1  -  Convert RGB image to greyscale and blur it with a Gaussian filter
-            let greyscale = image_impl::rgb_to_grayscale(self.image_b.data, width, height);
+            // let greyscale = image_impl::rgb_to_grayscale(self.image_b.data, width, height);
+            let greyscale = self.image_b.data.clone();
             let blurred_img =
                 image_impl::greyscale_gaussian_blur(&greyscale, width, height, self.blur_radius);
             let threshold: u8 = 30;
@@ -134,11 +136,7 @@ impl<'a> Slam<'a> {
         (
             decomposed_essential,
             matched_keypoints,
-            (
-                key_points_with_orientation_a,
-                descriptors_a,
-                blurred_image_a,
-            ),
+            (key_points_with_orientation_a, descriptors_a),
             (key_points_with_orientation_b, descriptors_b),
         )
     }

@@ -2,7 +2,7 @@ use image::io::Reader as ImageReader;
 use image::Rgb;
 use image::RgbImage;
 use std::time::SystemTime;
-use xdof::image_impl::greyscale_gaussian_blur;
+use xdof::image_impl::{greyscale_gaussian_blur, rgb_to_grayscale};
 
 use image::GrayImage;
 use image::ImageBuffer;
@@ -15,7 +15,7 @@ use xdof::fast_detect;
 use xdof::image_impl;
 use xdof::matcher;
 use xdof::rand::Rand;
-//use xdof::Slam;
+use xdof::Slam;
 
 fn main() {
     let args = std::env::args().collect::<Vec<String>>();
@@ -26,67 +26,74 @@ fn main() {
     }
 
     let start = SystemTime::now();
-    let img_a = read_image(&args[1]);
-    let img_b = read_image(&args[2]);
+    let img_a = read_gray_image(&args[1]);
+    let img_b = read_gray_image(&args[2]);
 
-    // let mut slam = Slam::new(img_a, img_b);
-    // let rslt = slam.calculate_pose();
-    // println!("{:?}", rslt);
-    let (kpswo_a, descriptors_a) = compute_kepoint_descriptors(&img_a);
-    let (kpswo_b, descriptors_b) = compute_kepoint_descriptors(&img_b);
+    let mut slam = Slam::new(img_a, img_b);
+    let rslt = slam.calculate_pose();
+    println!("matches: {:?}", rslt.1.len());
 
-    let max_hamming_distance = 300;
-    // PHASE 4  -  Match features between the two images
-    let matched_keypoints = matcher::match_features(
-        &kpswo_a,
-        &descriptors_a,
-        &kpswo_b,
-        &descriptors_b,
-        max_hamming_distance,
-    );
-
-    println!("matched keypoints: {}", matched_keypoints.len());
-
-    let seed = 2523523;
-    let mut random = Rand::new_with_seed(seed);
-    // // PHASE 5  -  RANSAC to find the best rotation and translation using 8 point algorithm
-    let essential_matrix =
-        essential::estimate_essential_ransac(&matched_keypoints, 1000, 10.0, &mut random);
-
-    // let (rotation, tranlation) = essential::decompose_essential_matrix(essential_matrix);
-
-    let decomposed_essential = if let Some(essential) = essential_matrix {
-        Some(essential::decompose_essential_matrix(essential))
-    } else {
-        None
-    };
-
-    // Once we have the essential matrix we don't need to compute this every time
-    //   Check out  https://github.com/PoseLib/PoseLib
-    // The above is the estimation of the absolute pose
-
-    // Triangulate Points
-    //   LOST  https://gtsam.org/2023/02/04/lost-triangulation.html
-    //   look at lmvs plucker
-
-    // Poselib P3P solver or LambdaTwist
-
-    // Determine Absolute Pose - relative to the point cloud (vector of points)
-
-    // P = K * [R,t]  // projection matrix
-    // s * [u;v;1] = P * [x; y; z; 1]
-
-    let millis = start.elapsed().unwrap().as_millis();
-
-    //draw_matches();
-
-    if let Some((trans_vec, rotation)) = decomposed_essential {
-        println!("essential mtx ");
-        println!("    translation : {}", trans_vec);
-        println!("       rotation : {}", rotation);
-        println!("------------------------------------------");
-        println!("Total time (millis)           : {:?}", millis);
+    if let Some(mtx) = rslt.0 {
+        println!("rotation   : {:?}", mtx.0);
+        println!("translation: {:?}", mtx.1);
     }
+
+    // let (kpswo_a, descriptors_a) = compute_kepoint_descriptors(&img_a);
+    // let (kpswo_b, descriptors_b) = compute_kepoint_descriptors(&img_b);
+
+    // let max_hamming_distance = 300;
+    // // PHASE 4  -  Match features between the two images
+    // let matched_keypoints = matcher::match_features(
+    //     &kpswo_a,
+    //     &descriptors_a,
+    //     &kpswo_b,
+    //     &descriptors_b,
+    //     max_hamming_distance,
+    // );
+
+    // println!("matched keypoints: {}", matched_keypoints.len());
+
+    // let seed = 2523523;
+    // let mut random = Rand::new_with_seed(seed);
+    // // // PHASE 5  -  RANSAC to find the best rotation and translation using 8 point algorithm
+    // let essential_matrix =
+    //     essential::estimate_essential_ransac(&matched_keypoints, 1000, 10.0, &mut random);
+
+    // // let (rotation, tranlation) = essential::decompose_essential_matrix(essential_matrix);
+
+    // let decomposed_essential = if let Some(essential) = essential_matrix {
+    //     Some(essential::decompose_essential_matrix(essential))
+    // } else {
+    //     None
+    // };
+
+    // // Once we have the essential matrix we don't need to compute this every time
+    // //   Check out  https://github.com/PoseLib/PoseLib
+    // // The above is the estimation of the absolute pose
+
+    // // Triangulate Points
+    // //
+    // //   LOST  https://gtsam.org/2023/02/04/lost-triangulation.html
+    // //   look at lmvs plucker
+
+    // // Poselib P3P solver or LambdaTwist
+
+    // // Determine Absolute Pose - relative to the point cloud (vector of points)
+
+    // // P = K * [R,t]  // projection matrix
+    // // s * [u;v;1] = P * [x; y; z; 1]
+
+    // let millis = start.elapsed().unwrap().as_millis();
+
+    // //draw_matches();
+
+    // if let Some((trans_vec, rotation)) = decomposed_essential {
+    //     println!("essential mtx ");
+    //     println!("    translation : {}", trans_vec);
+    //     println!("       rotation : {}", rotation);
+    //     println!("------------------------------------------");
+    //     println!("Total time (millis)           : {:?}", millis);
+    // }
 }
 
 //fn draw_matches() {
@@ -140,13 +147,28 @@ fn compute_kepoint_descriptors(
     (key_points_with_orientation, descriptors_a)
 }
 
-pub fn read_image(filename: &str) -> RgbImage {
+pub fn read_rgb_image(filename: &str) -> RgbImage {
     let img = ImageReader::open(filename).unwrap().decode().unwrap();
 
     let gimg =
         image::RgbImage::from_raw(img.width(), img.height(), img.into_bytes().to_vec()).unwrap();
 
     gimg
+}
+
+pub fn read_gray_image(filename: &str) -> Image {
+    let img = ImageReader::open(filename).unwrap().decode().unwrap();
+
+    let gimg =
+        image::GrayImage::from_raw(img.width(), img.height(), img.into_bytes().to_vec()).unwrap();
+
+    let gray_image: Image = xdof::common::Image {
+        width: gimg.width() as usize,
+        height: gimg.height() as usize,
+        data: gimg.as_raw().clone(),
+    };
+
+    gray_image
 }
 
 pub fn blur_image(image: &GrayImage, blur_radius: f32) -> GrayImage {
