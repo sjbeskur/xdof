@@ -5,6 +5,12 @@ pub struct KeyPoint {
     pub orientation: f32,
 }
 
+impl KeyPoint {
+    pub fn new(x: f32, y: f32, orientation: f32) -> Self {
+        Self { x, y, orientation }
+    }
+}
+
 #[derive(PartialEq, Debug, Clone)]
 pub struct Descriptor(pub Vec<u8>);
 

@@ -42,21 +42,9 @@ mod tests {
     #[test]
     fn test_match_features() {
         let keypoints1 = [
-            KeyPoint {
-                x: 0.0,
-                y: 0.0,
-                orientation: 0.0,
-            },
-            KeyPoint {
-                x: 1.0,
-                y: 1.0,
-                orientation: 0.0,
-            },
-            KeyPoint {
-                x: 2.0,
-                y: 2.0,
-                orientation: 0.0,
-            },
+            KeyPoint::new(0.0, 0.0, 0.0),
+            KeyPoint::new(1.0, 1.0, 0.0),
+            KeyPoint::new(2.0, 2.0, 0.0),
         ];
         let descriptors1 = [
             Descriptor(vec![0b00000000, 0b00000000, 0b00000000, 0b00000000]),
@@ -64,26 +52,14 @@ mod tests {
             Descriptor(vec![0b01101000, 0b01000000, 0b00010000, 0b00000011]),
         ];
         let keypoints2 = [
-            KeyPoint {
-                x: 0.0,
-                y: 0.0,
-                orientation: 0.0,
-            },
-            KeyPoint {
-                x: 1.0,
-                y: 1.0,
-                orientation: 0.0,
-            },
-            KeyPoint {
-                x: 2.0,
-                y: 2.0,
-                orientation: 0.0,
-            },
+            KeyPoint::new(0.0, 0.0, 0.0),
+            KeyPoint::new(1.0, 1.0, 0.0),
+            KeyPoint::new(2.0, 2.0, 0.0),
         ];
         let descriptors2 = [
             Descriptor(vec![0b00000000, 0b00000000, 0b00000000, 0b00000000]),
             Descriptor(vec![0b00000000, 0b00000000, 0b00000000, 0b00000011]),
-            // odd ball
+            // odd girl out 
             Descriptor(vec![0b01101000, 0b01000000, 0b00010000, 0b00000011]),
         ];
         let matches =
