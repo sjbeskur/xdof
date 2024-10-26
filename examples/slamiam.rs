@@ -25,18 +25,23 @@ fn main() {
         return;
     }
 
-    let start = SystemTime::now();
     let img_a = read_gray_image(&args[1]);
     let img_b = read_gray_image(&args[2]);
 
     let mut slam = Slam::new(img_a, img_b);
+
+    let now = std::time::Instant::now();
     let rslt = slam.calculate_pose();
+    let t = now.elapsed();
+
     println!("matches: {:?}", rslt.1.len());
 
     if let Some(mtx) = rslt.0 {
         println!("rotation   : {:?}", mtx.0);
         println!("translation: {:?}", mtx.1);
     }
+
+    println!("Time to calculate post: {:?}", t.as_secs_f64());
 
     // let (kpswo_a, descriptors_a) = compute_kepoint_descriptors(&img_a);
     // let (kpswo_b, descriptors_b) = compute_kepoint_descriptors(&img_b);
